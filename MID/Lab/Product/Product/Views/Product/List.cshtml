@@ -15,20 +15,19 @@
         <th>Quantity</th>
         <th>Price</th>
     </tr>
-    @if (Model != null)
+
+    @foreach (var p in Model)
     {
-        foreach (var p in Model)
-        {
-            <tr>
-                <td>@p.Id</td>
-                <td>@p.Name</td>
-                <td>@p.Quantity</td>
-                <td>@p.Price</td>
-                <td><a href="/Product/Update/@p.Id" class="btn btn-success">Update</a></td>
-                <td><a href="/Product/Delete/@p.Id" class="btn btn-danger">Delete</a></td>
-            </tr>
-        }
+        <tr>
+            <td>@p.Id</td>
+            <td>@p.Name</td>
+            <td>@p.Quantity</td>
+            <td>@p.Price</td>
+            <td><a href="/Product/Update/@p.Id" class="btn btn-success">Update</a></td>
+            <td><a href="/Product/Delete/@p.Id" class="btn btn-danger">Delete</a></td>
+        </tr>
     }
+
 </table>
 
 

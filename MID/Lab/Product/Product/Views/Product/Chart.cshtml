@@ -1,0 +1,51 @@
+﻿@model List<Product.Models.Entities.Product>
+
+<h2>Chart</h2>
+<a class="btn btn-primary" href="/Product/TransitionList">Transition List</a><br />
+@if (Model == null)
+{
+    <span style="text-align: center">No items in the chart.</span>
+}
+else if (Model.Count == 0)
+{
+    <span style="text-align: center">No items in the chart.</span>
+}
+else
+{
+<div>
+    <div style="max-height: 500px; width: 1150px; overflow-y: scroll; border: 2px solid black; ">
+        <table class="table table-bordered">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.Id</td>
+                    <td>@p.Name</td>
+                    <td>@p.Quantity</td>
+                    <td>@p.Price</td>
+                    <td><a href="/Product/DeleteFromChart/@p.Id" class="btn btn-danger">Delete</a></td>
+                </tr>
+            }
+        </table>
+
+    </div>
+    <br />
+    <div style="float: right; background: black; color: white;">
+        Total Price: @Model.Select(i => i.Price).Sum() Tk. <br />
+    </div>
+    <hr />
+    <div>
+        <a href="@Url.Action("PlaceOrder", "Product", new { @price = Model.Select(i => i.Price).Sum()})" class="btn btn-primary" style="float:right;">Place order</a>
+        <a href="@Url.Action("CancelOrder", "Product")" class="btn btn-danger" style="float:right;">Cancel</a>
+        <br />
+    </div>
+</div>
+    
+
+}

@@ -9,7 +9,7 @@
 
     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
 
-    <br>Quantity: <input type="text" class="form-control" value="@Model.Quantity" name="Quantity" />
+    <br>Quantity: <input type="text" class="form-control" value = "@Model.Quantity" name="Quantity" />
     @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
 
     <br>Price: <input type="text" class="form-control" value="@Model.Quantity" name="Price" />

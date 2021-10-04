@@ -89,5 +89,16 @@ namespace Product.Models.Tables
 
             return res > 1 ? true : false;
         }
+
+        public bool Update(int Quantity, int id)
+        {
+            conn.Open();
+            string query = "UPDATE Products Set Quantity = " + Quantity + " WHERE Id = " + id + "";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            int res = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            return res > 1 ? true : false;
+        }
     }
 }
