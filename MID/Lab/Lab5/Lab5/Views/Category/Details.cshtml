@@ -1,0 +1,28 @@
+﻿@model Lab5.Models.Category
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details for @Model.CategoryName</h2>
+
+<h5>List of Products under @Model.CategoryName</h5>
+<table class="table table-bordered">
+    <tr>
+        <th>Name</th>
+        <th>Id</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+    @foreach (var s in Model.Products)
+    {
+        <tr>
+            <td>@s.Name</td>
+            <td>@s.Id</td>
+            <td>@s.Quantity</td>
+            <td>@s.Price</td>
+        </tr>
+    }
+
+</table>
+@Html.ActionLink("Back to List", "Index")
