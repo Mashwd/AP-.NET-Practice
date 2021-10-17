@@ -17,7 +17,7 @@ namespace Product.Models.Tables
         {
 
             conn.Open();
-            string query = String.Format("insert into Transitions values ('{0}','{1}','{2}')", t.Items, t.Price, t.Date);
+            string query = String.Format("insert into Transitions values ('{0}','{1}','{2}', '{3}', '{4}')", t.Items, t.Detials, t.Price, t.CustomerId, t.Date);
             SqlCommand cmd = new SqlCommand(query, conn);
             int r = cmd.ExecuteNonQuery();
             conn.Close();
@@ -36,6 +36,8 @@ namespace Product.Models.Tables
 
                     Id = reader.GetInt32(reader.GetOrdinal("Id")),
                     Items = reader.GetInt32(reader.GetOrdinal("Items")),
+                    CustomerId = reader.GetInt32(reader.GetOrdinal("CustomerId")),
+                    Detials = reader.GetString(reader.GetOrdinal("Detials")),
                     Price = (float)reader.GetDouble(reader.GetOrdinal("Price")),
                     Date = reader.GetString(reader.GetOrdinal("Date"))
 
@@ -45,6 +47,60 @@ namespace Product.Models.Tables
 
             conn.Close();
             return transitions;
+        }
+
+        public List<Product.Models.Entities.Transition> GetMyOrder(int id)
+        {
+            conn.Open();
+            string query = String.Format("select * from Transitions where CustomerId= '{0}'", id);
+            SqlCommand cmd = new SqlCommand(query, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            List<Product.Models.Entities.Transition> transitions = new List<Product.Models.Entities.Transition>();
+            while (reader.Read())
+            {
+                Product.Models.Entities.Transition t = new Product.Models.Entities.Transition()
+                {
+
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    Items = reader.GetInt32(reader.GetOrdinal("Items")),
+                    CustomerId = reader.GetInt32(reader.GetOrdinal("CustomerId")),
+                    Detials = reader.GetString(reader.GetOrdinal("Detials")),
+                    Price = (float)reader.GetDouble(reader.GetOrdinal("Price")),
+                    Date = reader.GetString(reader.GetOrdinal("Date"))
+
+                };
+                transitions.Add(t);
+            }
+
+            conn.Close();
+            return transitions;
+        }
+
+
+        public Product.Models.Entities.Transition Get(int id)
+        {
+            conn.Open();
+            string query = String.Format("select * from Transitions where Id= '{0}'" , id);
+            SqlCommand cmd = new SqlCommand(query, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            Product.Models.Entities.Transition t = null;
+            while (reader.Read())
+            {
+                t = new Product.Models.Entities.Transition()
+                {
+
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    Items = reader.GetInt32(reader.GetOrdinal("Items")),
+                    CustomerId = reader.GetInt32(reader.GetOrdinal("CustomerId")),
+                    Detials = reader.GetString(reader.GetOrdinal("Detials")),
+                    Price = (float)reader.GetDouble(reader.GetOrdinal("Price")),
+                    Date = reader.GetString(reader.GetOrdinal("Date"))
+
+                };
+            }
+
+            conn.Close();
+            return t;
         }
     }
 }

@@ -11,9 +11,13 @@ using System.Web.Providers.Entities;
 using System.Linq;
 using System.Dynamic;
 using System.Globalization;
+using System.Web.Security;
+using System.Web;
+using System.Web.Configuration;
 
 namespace Product.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         // GET: Product
@@ -22,6 +26,27 @@ namespace Product.Controllers
             Database db = new Database();
             var products = db.Products.Get();
             return View(products);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Login(string Username, string Password)
+        {
+            Database db = new Database();
+            var user = db.users.Authenticate(Username, Password);
+            if (user != null)
+            {
+                FormsAuthentication.SetAuthCookie(user.Id.ToString(), true);
+                return RedirectToAction("List");
+            }
+            return View();
         }
 
         [HttpGet]
@@ -148,7 +173,7 @@ namespace Product.Controllers
 
         public ActionResult CancelOrder()
         {
-            if(Session["chart"] != null)
+            if (Session["chart"] != null)
             {
                 string j = (string)Session["chart"];
                 List<Product.Models.Entities.Product> d = new List<Models.Entities.Product>();
@@ -161,7 +186,7 @@ namespace Product.Controllers
                     db.Products.Update(p.Quantity + product.Quantity, p.Id);
                 }
             }
-            
+
             Session["chart"] = null;
             return RedirectToAction("Chart");
         }
@@ -179,29 +204,73 @@ namespace Product.Controllers
                 DateTime localDate = DateTime.Now;
                 string cultureName = "en-US";
 
-                
+
                 var culture = new CultureInfo(cultureName);
-                    
+
+                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                string name = ticket.Name;
 
                 Transition t = new Transition()
                 {
                     Items = d.Count,
                     Price = d.Select(i => i.Price).Sum(),
+                    Detials = Session["chart"].ToString(),
+                    CustomerId = Convert.ToInt32(name),
                     Date = localDate.ToString(culture)
                 };
 
                 db.Transitions.Create(t);
                 Session["chart"] = null;
-                
+
             }
             return RedirectToAction("Buy");
         }
 
         public ActionResult TransitionList()
         {
+
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+            string name = ticket.Name;
+
             Database db = new Database();
-            var transitions = db.Transitions.Get();
+            var transitions = db.Transitions.GetMyOrder(Convert.ToInt32(name));
             return View(transitions);
+        }
+
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+
+            // clear authentication cookie
+            HttpCookie cookie1 = new HttpCookie(FormsAuthentication.FormsCookieName, "");
+            cookie1.Expires = DateTime.Now.AddYears(-1);
+            Response.Cookies.Add(cookie1);
+
+            // clear session cookie (not necessary for your current problem but i would recommend you do it anyway)
+            SessionStateSection sessionStateSection = (SessionStateSection)WebConfigurationManager.GetSection("system.web/sessionState");
+            HttpCookie cookie2 = new HttpCookie(sessionStateSection.CookieName, "");
+            cookie2.Expires = DateTime.Now.AddYears(-1);
+            Response.Cookies.Add(cookie2);
+
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public ActionResult OrderDetials(int id)
+        {
+            Database db = new Database();
+            var p = db.Transitions.Get(id);
+            string j = p.Detials;
+            List<Product.Models.Entities.Product> d = new List<Models.Entities.Product>();
+            d = new JavaScriptSerializer().Deserialize<List<Product.Models.Entities.Product>>(j);
+
+            return View(d);
         }
     }
 }

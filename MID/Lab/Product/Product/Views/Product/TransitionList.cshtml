@@ -13,17 +13,21 @@
         <th>Id</th>
         <th>Items</th>
         <th>Price</th>
+        <th>Customer Id</th>
         <th>Date</th>
+        
     </tr>
 
     @foreach (var t in Model)
     {
-        <tr>
-            <td>@t.Id</td>
-            <td>@t.Items</td>
-            <td>@t.Price</td>
-            <td>@t.Date</td>
-        </tr>
+<tr>
+    <td>@t.Id</td>
+    <td>@t.Items</td>
+    <td>@t.Price</td>
+    <td>@t.CustomerId</td>
+    <td>@t.Date</td>
+    <td><a href="/Product/OrderDetials/@t.Id" class="btn btn-success">Detials</a></td>
+</tr>
     }
 
 </table>

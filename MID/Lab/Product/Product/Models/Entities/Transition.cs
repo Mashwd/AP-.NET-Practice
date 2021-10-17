@@ -10,6 +10,8 @@ namespace Product.Models.Entities
         public int Id { get; set; }
         public int Items { get; set; }
         public double Price { get; set; }
+        public string Detials { get; set; }
+        public int CustomerId { get; set; }
         public string Date { get; set; }
     }
 }

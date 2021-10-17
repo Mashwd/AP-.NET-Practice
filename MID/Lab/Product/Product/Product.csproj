@@ -224,8 +224,10 @@
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\Entities\Product.cs" />
     <Compile Include="Models\Entities\Transition.cs" />
+    <Compile Include="Models\Entities\User.cs" />
     <Compile Include="Models\Tables\Products.cs" />
     <Compile Include="Models\Tables\Transitions.cs" />
+    <Compile Include="Models\Tables\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +272,8 @@
     <Content Include="Views\Product\Buy.cshtml" />
     <Content Include="Views\Product\Chart.cshtml" />
     <Content Include="Views\Product\TransitionList.cshtml" />
+    <Content Include="Views\Product\Login.cshtml" />
+    <Content Include="Views\Product\OrderDetials.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
