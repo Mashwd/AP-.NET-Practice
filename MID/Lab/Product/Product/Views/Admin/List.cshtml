@@ -2,33 +2,36 @@
 @{
     ViewBag.Title = "List";
 }
-
-<h2>List</h2>
+<br />
+<br />
+<h2>Product List</h2>
 
 <a class="btn btn-primary" href="/Admin/Create">Add Product</a>
 <hr>
 <h3>All Products</h3>
-<table class="table table-bordered">
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Quantity</th>
-        <th>Price</th>
-    </tr>
-
-    @foreach (var p in Model)
-    {
+<div style="max-height: 440px; width: 1150px; overflow-y: scroll; border: 2px solid black;">
+    <table class="table table-bordered">
         <tr>
-            <td>@p.Id</td>
-            <td>@p.Name</td>
-            <td>@p.Quantity</td>
-            <td>@p.Price</td>
-            <td><a href="/Product/Update/@p.Id" class="btn btn-success">Update</a></td>
-            <td><a href="/Product/Delete/@p.Id" class="btn btn-danger">Delete</a></td>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
         </tr>
-    }
 
-</table>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Id</td>
+                <td>@p.Name</td>
+                <td>@p.Quantity</td>
+                <td>@p.Price</td>
+                <td><a href="/Product/Update/@p.Id" class="btn btn-success">Update</a></td>
+                <td><a href="/Product/Delete/@p.Id" class="btn btn-danger">Delete</a></td>
+            </tr>
+        }
+
+    </table>
+</div>
 
 
 

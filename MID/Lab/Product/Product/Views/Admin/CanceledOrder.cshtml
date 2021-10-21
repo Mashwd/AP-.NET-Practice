@@ -2,36 +2,36 @@
 @{
     ViewBag.Title = "Transition List";
 }
-
+<br /><br />
 <h2>Canceled Order</h2>
-
-<hr>
-<table class="table table-bordered">
-    <tr>
-        <th>Id</th>
-        <th>Items</th>
-        <th>Price</th>
-        <th>Customer Id</th>
-        <th>Status</th>
-        <th>Date</th>
-
-    </tr>
-
-    @foreach (var t in Model)
-    {
+<hr />
+<div style="max-height: 440px; width: 1150px; overflow-y: scroll; border: 2px solid black;">
+    <table class="table table-bordered">
         <tr>
-            <td>@t.Id</td>
-            <td>@t.Items</td>
-            <td>@t.Price</td>
-            <td>@t.CustomerId</td>
-            <td>@t.Status</td>
-            <td>@t.Date</td>
-            <td><a href="/Admin/OrderDetials/@t.Id" class="btn btn-primary">Detials</a></td>
+            <th>Id</th>
+            <th>Items</th>
+            <th>Price</th>
+            <th>Customer Id</th>
+            <th>Status</th>
+            <th>Date</th>
+
         </tr>
-    }
 
-</table>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.Id</td>
+                <td>@t.Items</td>
+                <td>@t.Price</td>
+                <td>@t.CustomerId</td>
+                <td>@t.Status</td>
+                <td>@t.Date</td>
+                <td><a href="/Admin/OrderDetials/@t.Id" class="btn btn-primary">Detials</a></td>
+            </tr>
+        }
 
+    </table>
+</div>
 
 
 

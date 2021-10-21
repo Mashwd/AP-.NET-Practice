@@ -16,14 +16,19 @@ namespace Product.Auth
 
             if (flag)
             {
-                var s = context.Session["type"].ToString();
-                if (s == "2")
-                {
-                    return true;
-                }
+                if (context.Session["type"] == null)
+                    return false;
                 else
                 {
-                    return false;
+                    var s = context.Session["type"].ToString();
+                    if (s == "2")
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
             else

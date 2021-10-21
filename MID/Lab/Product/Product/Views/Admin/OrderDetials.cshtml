@@ -2,24 +2,28 @@
 @{
     ViewBag.Title = "OrderDetials";
 }
-
-<h2>OrderDetials</h2>
-<table class="table table-bordered">
-    <tr>
-        <th>Id</th>
-        <th>Product Name</th>
-        <th>Quantity</th>
-        <th>Price</th>
-    </tr>
-    @foreach (var p in Model)
-    {
+<br />
+<br />
+<h2>Order Detials</h2>
+<hr />
+<div style="max-height: 440px; width: 1150px; overflow-y: scroll; border: 2px solid black;">
+    <table class="table table-bordered">
         <tr>
-            <td>@p.Id</td>
-            <td>@p.Name</td>
-            <td>@p.Quantity</td>
-            <td>@p.Price</td>
+            <th>Id</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
         </tr>
-    }
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Id</td>
+                <td>@p.Name</td>
+                <td>@p.Quantity</td>
+                <td>@p.Price</td>
+            </tr>
+        }
 
-</table><br />
+    </table><br />
+</div>
 <a href="/Admin/OrderList" class="btn btn-primary">Back</a>
