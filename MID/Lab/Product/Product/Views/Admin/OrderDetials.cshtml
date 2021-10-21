@@ -1,21 +1,16 @@
 ﻿@model List<Product.Models.Entities.Product>
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "OrderDetials";
 }
 
-<h2>List</h2>
-
-<a class="btn btn-primary" href="/Product/Create">Add Product</a>
-<hr>
-<h3>All Products</h3>
+<h2>OrderDetials</h2>
 <table class="table table-bordered">
     <tr>
         <th>Id</th>
-        <th>Name</th>
+        <th>Product Name</th>
         <th>Quantity</th>
         <th>Price</th>
     </tr>
-
     @foreach (var p in Model)
     {
         <tr>
@@ -23,12 +18,8 @@
             <td>@p.Name</td>
             <td>@p.Quantity</td>
             <td>@p.Price</td>
-            <td><a href="/Product/Update/@p.Id" class="btn btn-success">Update</a></td>
-            <td><a href="/Product/Delete/@p.Id" class="btn btn-danger">Delete</a></td>
         </tr>
     }
 
-</table>
-
-
-
+</table><br />
+<a href="/Admin/OrderList" class="btn btn-primary">Back</a>

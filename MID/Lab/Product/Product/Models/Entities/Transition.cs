@@ -12,6 +12,7 @@ namespace Product.Models.Entities
         public double Price { get; set; }
         public string Detials { get; set; }
         public int CustomerId { get; set; }
+        public string Status { get; set; }
         public string Date { get; set; }
     }
 }

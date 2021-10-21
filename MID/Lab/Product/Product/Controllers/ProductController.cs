@@ -14,85 +14,15 @@ using System.Globalization;
 using System.Web.Security;
 using System.Web;
 using System.Web.Configuration;
+using Product.Auth;
 
 namespace Product.Controllers
 {
-    [Authorize]
+    [BuyerAccess]
     public class ProductController : Controller
     {
         // GET: Product
-        public ActionResult List()
-        {
-            Database db = new Database();
-            var products = db.Products.Get();
-            return View(products);
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        public ActionResult Login(string Username, string Password)
-        {
-            Database db = new Database();
-            var user = db.users.Authenticate(Username, Password);
-            if (user != null)
-            {
-                FormsAuthentication.SetAuthCookie(user.Id.ToString(), true);
-                return RedirectToAction("List");
-            }
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult Create()
-        {
-            Product.Models.Entities.Product p = new Product.Models.Entities.Product();
-            return View(p);
-        }
-        [HttpPost]
-        public ActionResult Create(Product.Models.Entities.Product p)
-        {
-            if (ModelState.IsValid)
-            {
-                Database db = new Database();
-                db.Products.Create(p);
-                return RedirectToAction("List");
-            }
-            return View(p);
-        }
-
-        [HttpGet]
-        public ActionResult Update(int id)
-        {
-            Database db = new Database();
-            var p = db.Products.Get(id);
-            return View(p);
-        }
-        [HttpPost]
-        public ActionResult Update(Product.Models.Entities.Product p, int id)
-        {
-            Database db = new Database();
-            if (ModelState.IsValid)
-            {
-                db.Products.Update(p, id);
-                return RedirectToAction("List");
-            }
-            return View(p);
-        }
-
-        public ActionResult Delete(int id)
-        {
-            Database db = new Database();
-            db.Products.Delete(id);
-            return RedirectToAction("List");
-        }
-
+        
         public ActionResult Buy()
         {
             Database db = new Database();
@@ -207,22 +137,23 @@ namespace Product.Controllers
 
                 var culture = new CultureInfo(cultureName);
 
-                HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                /*HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
 
-                string name = ticket.Name;
+                string name = ticket.Name;*/
 
                 Transition t = new Transition()
                 {
                     Items = d.Count,
                     Price = d.Select(i => i.Price).Sum(),
                     Detials = Session["chart"].ToString(),
-                    CustomerId = Convert.ToInt32(name),
+                    CustomerId = Convert.ToInt32(User.Identity.Name),
+                    Status = "Pending",
                     Date = localDate.ToString(culture)
                 };
 
                 db.Transitions.Create(t);
-                Session["chart"] = null;
+                Session.Remove("chart");
 
             }
             return RedirectToAction("Buy");
@@ -231,36 +162,17 @@ namespace Product.Controllers
         public ActionResult TransitionList()
         {
 
-            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+            /*HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);*/
 
-            string name = ticket.Name;
+            string name = User.Identity.Name;
 
             Database db = new Database();
             var transitions = db.Transitions.GetMyOrder(Convert.ToInt32(name));
             return View(transitions);
         }
 
-        [HttpGet]
-        public ActionResult Logout()
-        {
-            FormsAuthentication.SignOut();
-            Session.Abandon();
-
-            // clear authentication cookie
-            HttpCookie cookie1 = new HttpCookie(FormsAuthentication.FormsCookieName, "");
-            cookie1.Expires = DateTime.Now.AddYears(-1);
-            Response.Cookies.Add(cookie1);
-
-            // clear session cookie (not necessary for your current problem but i would recommend you do it anyway)
-            SessionStateSection sessionStateSection = (SessionStateSection)WebConfigurationManager.GetSection("system.web/sessionState");
-            HttpCookie cookie2 = new HttpCookie(sessionStateSection.CookieName, "");
-            cookie2.Expires = DateTime.Now.AddYears(-1);
-            Response.Cookies.Add(cookie2);
-
-            return RedirectToAction("Login");
-        }
-
+        
         [HttpGet]
         public ActionResult OrderDetials(int id)
         {

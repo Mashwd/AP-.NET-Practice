@@ -1,0 +1,40 @@
+﻿@model List<Product.Models.Entities.Transition>
+@{
+    ViewBag.Title = "Transition List";
+}
+
+<h2>Canceled Order</h2>
+
+<hr>
+<table class="table table-bordered">
+    <tr>
+        <th>Id</th>
+        <th>Items</th>
+        <th>Price</th>
+        <th>Customer Id</th>
+        <th>Status</th>
+        <th>Date</th>
+
+    </tr>
+
+    @foreach (var t in Model)
+    {
+        <tr>
+            <td>@t.Id</td>
+            <td>@t.Items</td>
+            <td>@t.Price</td>
+            <td>@t.CustomerId</td>
+            <td>@t.Status</td>
+            <td>@t.Date</td>
+            <td><a href="/Admin/OrderDetials/@t.Id" class="btn btn-primary">Detials</a></td>
+        </tr>
+    }
+
+</table>
+
+
+
+
+
+
+
