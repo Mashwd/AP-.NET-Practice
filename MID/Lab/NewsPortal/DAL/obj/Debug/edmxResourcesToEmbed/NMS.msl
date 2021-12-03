@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="NewsPortalModelStoreContainer" CdmEntityContainer="NewsPortalEntities">
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="NewsPortalModel.Comment">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="CInfo" ColumnName="CInfo" />
+          <ScalarProperty Name="CDate" ColumnName="CDate" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="NewsID" ColumnName="NewsID" />
+          <ScalarProperty Name="CommentedBy" ColumnName="CommentedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NewsDetails">
+      <EntityTypeMapping TypeName="NewsPortalModel.NewsDetail">
+        <MappingFragment StoreEntitySet="NewsDetails">
+          <ScalarProperty Name="NewsCat" ColumnName="NewsCat" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Info" ColumnName="Info" />
+          <ScalarProperty Name="PostedBy" ColumnName="PostedBy" />
+          <ScalarProperty Name="PostDate" ColumnName="PostDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reactions">
+      <EntityTypeMapping TypeName="NewsPortalModel.Reaction">
+        <MappingFragment StoreEntitySet="Reactions">
+          <ScalarProperty Name="Raction" ColumnName="Raction" />
+          <ScalarProperty Name="RDate" ColumnName="RDate" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="NewsID" ColumnName="NewsID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="NewsPortalModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="UserType" ColumnName="UserType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NewsCategories">
+      <EntityTypeMapping TypeName="NewsPortalModel.NewsCategory">
+        <MappingFragment StoreEntitySet="NewsCategories">
+          <ScalarProperty Name="NewsCat" ColumnName="NewsCat" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
